@@ -1,6 +1,6 @@
 # Vault Enterprise Raft Cluster Setup
 
-This setup creates a 3-node Vault Enterprise cluster using Raft integrated storage for troubleshooting purposes.
+This setup creates a 3-node Vault Enterprise cluster using Raft integrated storage.
 
 ## Prerequisites
 
@@ -11,6 +11,9 @@ This setup creates a 3-node Vault Enterprise cluster using Raft integrated stora
 ## Usage
 
 1. Navigate to this directory.
+   ```
+   cd vault-cluster
+   ```
 
 2. Set the Vault version (optional, defaults to latest Enterprise):
    ```
@@ -31,37 +34,19 @@ This setup creates a 3-node Vault Enterprise cluster using Raft integrated stora
    - Node 3: http://localhost:18202
 
 ## Initializing the Cluster
+   ```bash
+   ./init.sh
+   ```
 
-After starting, initialize the first node:
+   This script will:
+   - Stop any existing cluster
+   - Remove data directories
+   - Start the cluster fresh
+   - Initialize the cluster with `vault operator init`
+   - Unseal all three nodes
+   - Display the unseal keys and root token
 
-```
-docker exec -it vault1 vault operator init
-```
 
-This will output unseal keys and root token. Note them down.
-
-Unseal vault1:
-
-```
-docker exec -it vault1 vault operator unseal <key1>
-docker exec -it vault1 vault operator unseal <key2>
-docker exec -it vault1 vault operator unseal <key3>
-```
-
-Or use the provided script:
-
-```
-./unseal.sh
-```
-
-Join the other nodes:
-
-```
-docker exec -it vault2 vault operator raft join http://vault1:8200
-docker exec -it vault3 vault operator raft join http://vault1:8200
-```
-
-Unseal vault2 and vault3 similarly.
 
 ## Accessing the nodes
 ```
@@ -69,6 +54,13 @@ docker exec -it vault1 /bin/sh
 docker exec -it vault2 /bin/sh
 docker exec -it vault3 /bin/sh
 ```
+
+### Web UI
+- **Node 1**: http://localhost:18200/ui
+- **Node 2**: http://localhost:18201/ui
+- **Node 3**: http://localhost:18202/ui
+
+Log in with the root token displayed after running `init.sh`.
 
 ## To restart after changes to Vault configuration file
 ```
