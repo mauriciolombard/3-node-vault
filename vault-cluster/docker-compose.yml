@@ -1,0 +1,52 @@
+services:
+  vault1:
+    image: hashicorp/vault-enterprise:${VAULT_VERSION:-latest}
+    container_name: vault1
+    user: root
+    volumes:
+      - ./node1/config.hcl:/vault/config/config.hcl
+      - ./data/node1:/vault/data
+    ports:
+      - "18200:8200"
+    command: vault server -config=/vault/config/config.hcl
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200
+      VAULT_LICENSE: ${VAULT_LICENSE}
+
+  vault2:
+    image: hashicorp/vault-enterprise:${VAULT_VERSION:-latest}
+    container_name: vault2
+    user: root
+    volumes:
+      - ./node2/config.hcl:/vault/config/config.hcl
+      - ./data/node2:/vault/data
+    ports:
+      - "18201:8200"
+    command: vault server -config=/vault/config/config.hcl
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200
+      VAULT_LICENSE: ${VAULT_LICENSE}
+    depends_on:
+      - vault1
+
+  vault3:
+    image: hashicorp/vault-enterprise:${VAULT_VERSION:-latest}
+    container_name: vault3
+    user: root
+    volumes:
+      - ./node3/config.hcl:/vault/config/config.hcl
+      - ./data/node3:/vault/data
+    ports:
+      - "18202:8200"
+    command: vault server -config=/vault/config/config.hcl
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200
+      VAULT_LICENSE: ${VAULT_LICENSE}
+    depends_on:
+      - vault1

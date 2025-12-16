@@ -1,0 +1,10 @@
+# Vault data directories (contains sensitive raft data)
+vault-cluster/data/
+
+# macOS
+.DS_Store
+
+# Vault tokens and secrets (if any)
+*.token
+*.key
+init-keys.json
