@@ -67,6 +67,13 @@ Log in with the root token displayed after running `init.sh`.
 docker compose restart
 ```
 
+## To review server logs
+```
+docker logs vault1 -f
+docker logs vault2 -f
+docker logs vault3 -f
+```
+
 ## Stopping the Cluster
 
 ```

@@ -1,4 +1,5 @@
 ui = true
+log_level = "debug"
 
 storage "raft" {
   path = "/vault/data"
