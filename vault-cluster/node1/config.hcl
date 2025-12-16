@@ -1,3 +1,5 @@
+ui = true
+
 storage "raft" {
   path = "/vault/data"
   node_id = "vault1"

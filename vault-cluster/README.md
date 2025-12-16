@@ -63,6 +63,11 @@ docker exec -it vault3 vault operator raft join http://vault1:8200
 
 Unseal vault2 and vault3 similarly.
 
+## Accessing the nodes
+docker exec -it vault1 /bin/sh
+docker exec -it vault2 /bin/sh
+docker exec -it vault3 /bin/sh
+
 ## Stopping the Cluster
 
 ```
